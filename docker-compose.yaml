@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  phpfpm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /var/www/app
+    volumes:
+      - .:/var/www/app
+      - ./docker/php/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    volumes:
+      - .:/var/www/app
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
